@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+body {
+  background-color: black;
+  color: white;
+}
+
+@font-face {
+  font-family: "satoshi";
+  src: url("../../public/satoshi.woff2") format("woff2");
+}
+
+.button {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  width: 75.78px;
+  height: 33.6px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: white;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition-property: color, background-color;
+  transition-duration: 500ms;
+}
+
+.button:hover {
+  background-color: white;
+  color: black;
+}
+
+.glow {
+  text-shadow:
+    0 0 12px white,
+    0 0 20px white,
+    0 0 28px white;
+}

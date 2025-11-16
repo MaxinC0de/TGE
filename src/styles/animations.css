@@ -1,0 +1,143 @@
+.sprite {
+  animation: jump 5s ease-in-out infinite;
+}
+
+.walk {
+  transform-origin: bottom center;
+  animation: walk 10s linear infinite;
+}
+
+.head {
+  transform-origin: 50% 100%;
+  animation: head 5s linear infinite;
+}
+
+.leg-left {
+  transform-origin: 47px 130px;
+  animation: leg-left 5s ease-in-out infinite;
+}
+
+.leg-right {
+  transform-origin: 56px 130px;
+  animation: leg-right 5s ease-in-out infinite;
+}
+
+@keyframes head {
+  20%,
+  80% {
+    transform: rotate(0);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+}
+
+@keyframes leg-left {
+  20%,
+  80% {
+    transform: rotate(0);
+  }
+  50% {
+    transform: rotate(50deg);
+  }
+}
+
+@keyframes leg-right {
+  20%,
+  80% {
+    transform: rotate(0);
+  }
+  50% {
+    transform: rotate(-50deg);
+  }
+}
+
+@keyframes walk {
+  0% {
+    transform: translateX(0) scaleX(1);
+  }
+  50% {
+    transform: translateX(calc(100vw - 20px)) scaleX(1);
+  }
+  51% {
+    transform: translateX(calc(100vw - 20px)) scaleX(-1);
+  }
+  100% {
+    transform: translateX(0) scaleX(-1);
+  }
+}
+@keyframes jump {
+  20%,
+  80% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-50px);
+  }
+}
+
+.radiance {
+  width: 200px;
+  height: 200px;
+  background-color: white;
+  border-radius: 50%;
+  filter: blur(200px);
+  animation: radiance 10s linear infinite;
+}
+
+@keyframes radiance {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(10);
+  }
+}
+
+.shaking-dot {
+  animation: shake-dot 0.1s linear infinite;
+}
+
+.shaking-dot:hover {
+  animation: none;
+}
+
+@keyframes shake-dot {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(1px, 0);
+  }
+  50% {
+    transform: translate(0, -1px);
+  }
+  75% {
+    transform: translate(-1px, 1px);
+  }
+}
+
+.glow {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  color: white;
+  text-shadow:
+    0 0 4px white,
+    0 0 6px white;
+}
+
+.span-fade-in {
+  animation: fade-in 0.5s ease-out;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
