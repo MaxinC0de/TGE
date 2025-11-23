@@ -1,2 +1,6 @@
 export * from "./matrix"
 export * from "./getRandomPosition"
+export * from "./sprites"
+export * from "./particles"
+export * from "./config"
+export * from "./altars"

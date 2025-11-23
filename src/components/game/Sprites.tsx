@@ -1,80 +1,61 @@
-import { useSprites } from "@store"
 import { useEffect, useRef } from "react"
+import {
+  renderSprites,
+  updateSprites,
+  renderParticles,
+  updateParticles,
+  renderAltars
+} from "@utils"
+import {
+  useCanvas,
+  useSpriteData,
+  useParticleData,
+  useAltarsPositionsData
+} from "@hooks"
+import { useSprites, useAutobuyers } from "@store"
+import { CONFIG } from "@utils"
 
 export default function Sprites() {
-  const sprites = useSprites()
-  const canvasRef = useRef(null)
+  const autobuyers = useAutobuyers()
 
-  let x = 100
-  let y = 600
+  const canvasRef = useRef(null)
+  const frameCountRef = useRef(0)
+  const altarsCount = 20
+
+  const spritesCount = useSprites()
+  const ctx = useCanvas(canvasRef)
+  const spritesDataRef = useSpriteData(spritesCount)
+  const particlesDataRef = useParticleData(spritesDataRef.current)
+  const altarsPositions = useAltarsPositionsData(altarsCount)
 
   useEffect(() => {
-    if (!canvasRef.current) return
-    const canvas = canvasRef.current
-    const ctx = canvas.getContext("2d")
-    canvas.width = window.innerWidth
-    canvas.height = window.innerHeight
-    ctx.fillStyle = "white"
+    if (!ctx) return
+    let frameId: number
 
-    const width = 10
-    const height = window.innerHeight
+    const animate = () => {
+      frameCountRef.current++
+      ctx.clearRect(0, 0, CONFIG.canvas.width, CONFIG.canvas.height)
 
-    const drawSprite = () => {
-      // head
-      ctx.beginPath()
-      ctx.arc(0, 20, 10, 0, Math.PI * 2)
-      ctx.fill()
+      // prettier-ignore
+      updateSprites(spritesDataRef.current, frameCountRef.current, altarsPositions)
+      renderSprites(ctx, spritesDataRef.current)
 
-      // body
-      ctx.beginPath()
-      ctx.fillRect(-1, 20, 3, 20)
-      ctx.fill()
+      updateParticles(particlesDataRef.current)
+      renderParticles(ctx, particlesDataRef.current, spritesDataRef.current)
 
-      // eye
-      ctx.beginPath()
-      ctx.arc(3, 20, 5, 0, Math.PI * 2)
-      ctx.fillStyle = "black"
-      ctx.fill()
+      renderAltars(ctx, altarsPositions)
 
-      // LEFT LEG
-      ctx.save()
-      ctx.translate(0, 38)
-      ctx.rotate(1) // angle
-      ctx.translate(0, -35)
-      ctx.beginPath()
-      ctx.fillStyle = "white"
-      ctx.fillRect(1, 35, 2, 7)
-      ctx.fill()
-      ctx.restore()
-
-      // RIGHT LEG
-      ctx.save()
-      ctx.translate(4, 38)
-      ctx.rotate(2.2)
-      ctx.translate(0, -40)
-      ctx.beginPath()
-      ctx.fillStyle = "white"
-      ctx.fillRect(3, 35, 2, 7)
-      ctx.fill()
-      ctx.restore()
+      frameId = requestAnimationFrame(animate)
     }
-
-    const moveSprite = () => {
-      requestAnimationFrame(moveSprite)
-      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
-      x += 0.5
-
-      ctx.save()
-      ctx.translate(100, 100)
-      drawSprite()
-      ctx.restore()
-    }
-    moveSprite()
-  })
+    animate()
+    return () => cancelAnimationFrame(frameId)
+  }, [ctx, spritesDataRef, particlesDataRef])
 
   return (
-    <div>
-      <canvas ref={canvasRef} />
-    </div>
+    <>
+      {autobuyers !== 0 && (
+        <canvas ref={canvasRef} className="w-screen h-screen" />
+      )}
+    </>
   )
 }

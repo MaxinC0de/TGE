@@ -1,9 +1,11 @@
-import { useUpgrades } from "@store"
+import { useCount, useUpgrades } from "@store"
 import NothingItem from "./NothingItem"
 import { useNothingPositions } from "./useNothingPositions"
 
 export default function Nothings() {
   const upgrades = useUpgrades()
+
+  const count = useCount()
 
   const organizedUpgrade = upgrades.find((u) => u.key === "organized")
   const isOrganized = !!organizedUpgrade?.isBought
@@ -11,10 +13,14 @@ export default function Nothings() {
   const nothingPositions = useNothingPositions(!isOrganized)
 
   return (
-    <div className="flex flex-col items-center mt-[5vh] mx-auto w-[85vw] h-[60vh]">
+    <div className="absolute w-screen h-screen">
       <div className="flex flex-wrap text-left">
         {isOrganized ? (
-          <span>nothing</span>
+          <>
+            {Array.from({ length: count }).map(() => (
+              <span className="mx-1">nothing</span>
+            ))}
+          </>
         ) : (
           nothingPositions.map(({ x, y }, i) => (
             <NothingItem key={i} x={x} y={y} isOrganized={isOrganized} />

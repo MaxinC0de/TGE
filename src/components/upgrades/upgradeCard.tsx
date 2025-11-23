@@ -1,9 +1,10 @@
 import { Letters } from "@components"
 import { useIsTranslated, useIsBuyable } from "@hooks"
 import { useCount, useSetIsBought } from "@store"
+import { useState } from "react"
 
 export default function UpgradeCard({ upgrade, index }) {
-  //   const [isTranslated, setIsTranslated] = useState(false)
+  const [translated, setIsTranslated] = useState(false)
   const isTranslated = useIsTranslated()
   const neededLetters = () => {
     const arrayLetters = upgrade?.name.split(" ")
@@ -24,7 +25,11 @@ export default function UpgradeCard({ upgrade, index }) {
       onClick={handleClick}
       className="flex flex-wrap justify-center gap-3 cursor-pointer"
     >
-      {isTranslated ? (
+      <button onClick={() => setIsTranslated(!translated)}>
+        clic ici pour traduire ce caca incompréhensible <br /> en gros plus tard
+        ce sera traduit
+      </button>
+      {translated ? (
         <p>{upgrade.name}</p>
       ) : (
         letters.map((length, i) => (

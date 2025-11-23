@@ -5,7 +5,7 @@ export default function UpgradesMenu() {
   return (
     <div className="overflow-hidden">
       <Dot direction="main" />
-      {/* <Matrice /> */}
+      <Matrice />
       <UpgradesList />
     </div>
   )

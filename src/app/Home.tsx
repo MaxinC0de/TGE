@@ -21,8 +21,8 @@ export default function Home() {
       {!unlocks.incrementNothing && (
         <UnlockIncrementNothingButton setIsUnlocked />
       )}
-      <div className="relative flex flex-col h-[100vh] justify-around overflow-hidden">
-        {unlocks.count && <Count />}
+      <div className="relative flex flex-col h-screen justify-around overflow-hidden">
+        <Count />
         {unlocks.dot && <Dot direction="upgrades" />}
         <MainButtons />
         <Nothings />
