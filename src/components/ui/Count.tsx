@@ -9,6 +9,7 @@ export default function Count() {
         clic ici si tu veux gagner un gros boost en puissance et débloquer du
         contenu
       </a>
+      <p className="mt-6 text-black font-black">v.√-1</p>
     </div>
   )
 }
