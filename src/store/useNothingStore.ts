@@ -3,7 +3,7 @@ import { immer } from "zustand/middleware/immer"
 
 export const useNothingStore = create()(
   immer((set) => ({
-    count: 0,
+    count: 5,
     cap: 1,
     incrementCap: () =>
       set((s) => {
@@ -33,12 +33,12 @@ export const useNothingStore = create()(
       set((s) => {
         s.count = 0
       }),
-    sprites: 0,
+    sprites: 1,
     incrementSprites: () =>
       set((s) => {
         s.sprites += 1
       }),
-    autobuyers: 0,
+    autobuyers: 1,
     incrementAutobuyers: () =>
       set((s) => {
         if (s.count < 5) return

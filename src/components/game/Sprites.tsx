@@ -4,14 +4,10 @@ import {
   updateSprites,
   renderParticles,
   updateParticles,
-  renderAltars
+  renderGos,
+  updateGos
 } from "@utils"
-import {
-  useCanvas,
-  useSpriteData,
-  useParticleData,
-  useAltarsPositionsData
-} from "@hooks"
+import { useCanvas, useSpriteData, useParticleData } from "@hooks"
 import { useSprites, useAutobuyers } from "@store"
 import { CONFIG } from "@utils"
 
@@ -20,13 +16,19 @@ export default function Sprites() {
 
   const canvasRef = useRef(null)
   const frameCountRef = useRef(0)
-  const altarsCount = 20
 
   const spritesCount = useSprites()
   const ctx = useCanvas(canvasRef)
   const spritesDataRef = useSpriteData(spritesCount)
   const particlesDataRef = useParticleData(spritesDataRef.current)
-  const altarsPositions = useAltarsPositionsData(altarsCount)
+
+  const oldestRef = useRef(null)
+
+  useEffect(() => {
+    oldestRef.current = [...spritesDataRef.current].sort(
+      (a, b) => a.birthTime - b.birthTime
+    )[0]
+  }, [spritesDataRef.current])
 
   useEffect(() => {
     if (!ctx) return
@@ -37,13 +39,14 @@ export default function Sprites() {
       ctx.clearRect(0, 0, CONFIG.canvas.width, CONFIG.canvas.height)
 
       // prettier-ignore
-      updateSprites(spritesDataRef.current, frameCountRef.current, altarsPositions)
+      updateSprites(spritesDataRef.current, frameCountRef.current)
       renderSprites(ctx, spritesDataRef.current)
 
       updateParticles(particlesDataRef.current)
       renderParticles(ctx, particlesDataRef.current, spritesDataRef.current)
 
-      renderAltars(ctx, altarsPositions)
+      renderGos(ctx, oldestRef.current)
+      updateGos(ctx, spritesDataRef.current, oldestRef.current)
 
       frameId = requestAnimationFrame(animate)
     }

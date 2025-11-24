@@ -1,11 +1,10 @@
 // prettier-ignore
 import { moveDirection, CONFIG, GROUND_OFFSET } from "@utils"
 
-export const updateSprites = (sprites, frameCount, altarsPositions) => {
+export const updateSprites = (sprites, frameCount) => {
   fall(sprites)
-  moveDirection(sprites, altarsPositions)
+  moveDirection(sprites)
   levitate(sprites, frameCount)
-  dropBody(sprites)
 }
 
 export const fall = (sprites) => {
@@ -28,20 +27,18 @@ export const fall = (sprites) => {
 const levitate = (sprites, frameCount) => {
   sprites.forEach((sprite) => {
     if (sprite.state !== "levitating") return
-    if (sprite.y > CONFIG.canvas.height / 2) {
-      sprite.y -= 1
-      sprite.x = sprite.x + Math.sin(frameCount * 0.5) * 0.5
-    } else {
-      sprite.x = sprite.x + Math.sin(frameCount * 0.5) / 2
-      sprite.state = "exploding"
-    }
+
+    const deltaX = CONFIG.canvas.width * 0.8 - sprite.x
+    const deltaY = CONFIG.canvas.height * 0.1 - sprite.y
+
+    sprite.x += deltaX * 0.02
+    sprite.y += deltaY * 0.02
   })
 }
 
-const dropBody = (sprites) => {
-  sprites.forEach((sprite) => {
-    if (sprite.state !== "exploding") return
-    if (sprite.dropFallOffset > CONFIG.canvas.height) return
-    sprite.dropFallOffset++
-  })
+const lerpTravel = (current, target, speed) => {
+  let diff = target - current
+  while (diff > Math.PI) diff -= Math.PI * 2
+  while (diff < -Math.PI) diff += Math.PI * 2
+  return current + diff * speed
 }

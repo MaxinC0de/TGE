@@ -4,6 +4,7 @@ export const createSpriteData = () => {
   const { minWalkSpeed, maxWalkSpeed } = CONFIG.sprite
   const randomInitialDirection = Math.random() > 0.5 ? "right" : "left"
   return {
+    serialKey: crypto.randomUUID(),
     x: randomInitialDirection === "right" ? -10 : CONFIG.canvas.width + 10,
     y: -10,
     speed: Math.random() * (maxWalkSpeed - minWalkSpeed) + minWalkSpeed,
