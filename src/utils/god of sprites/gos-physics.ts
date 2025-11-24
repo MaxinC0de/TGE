@@ -21,7 +21,6 @@ let laser = {
 const easeOutCubic = (t) => 1 - Math.pow(t, 3)
 
 const shootLaser = (ctx, oldest) => {
-  if (gos.state !== "shooting") return
   const maxDistance = window.innerWidth * 0.8
   const progress = (laser.x - laserPosition.x) / maxDistance
 
